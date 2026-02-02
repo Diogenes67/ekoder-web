@@ -64,22 +64,31 @@ class HybridRetriever:
         self.embeddings = None
 
     def _get_embedding(self, text: str) -> Optional[np.ndarray]:
-        """Get embedding from Ollama API"""
+        """Get embedding from HuggingFace API (works in cloud)"""
         try:
             clean_text = sanitize_text(text)
             if len(clean_text) > 2000:
                 clean_text = clean_text[:2000]
 
-            url = f"{settings.OLLAMA_URL}/api/embeddings"
+            # Use HuggingFace Inference API with mxbai-embed-large
+            url = "https://api-inference.huggingface.co/pipeline/feature-extraction/mixedbread-ai/mxbai-embed-large-v1"
+            headers = {"Authorization": f"Bearer {settings.HF_TOKEN}"}
+
             resp = requests.post(
                 url,
-                json={"model": settings.EMBED_MODEL, "prompt": clean_text},
+                headers=headers,
+                json={"inputs": clean_text, "options": {"wait_for_model": True}},
                 timeout=60
             )
+
             if resp.status_code == 200:
-                return np.array(resp.json()["embedding"])
+                embedding = resp.json()
+                # HF returns nested list, flatten if needed
+                if isinstance(embedding[0], list):
+                    embedding = embedding[0]
+                return np.array(embedding)
             else:
-                print(f"Embedding API error: {resp.status_code}")
+                print(f"HuggingFace Embedding API error: {resp.status_code} - {resp.text[:200]}")
         except Exception as e:
             print(f"Embedding error: {e}")
         return None

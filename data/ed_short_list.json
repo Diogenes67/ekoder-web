@@ -3363,9 +3363,9 @@
     "code": "I74.9",
     "descriptor": "Embolism and thrombosis of unspecified artery",
     "term": "Embolism or thrombosis of artery, other",
-    "conditions": "Embolism and thrombosis of abdominal aorta, unspecified parts of aorta, arteries of upper or lower extremities, unspecified extremities, iliac artery, other arteries",
+    "conditions": "Embolism and thrombosis of abdominal aorta, unspecified parts of aorta, arteries of upper or lower extremities, unspecified extremities, iliac artery, other arteries; acute limb ischemia; blue limb; pulseless limb; cold limb; arterial occlusion; brachial artery occlusion; radial artery occlusion; ischaemic limb; limb threatening ischemia; embolic occlusion; thrombotic occlusion; acute arterial occlusion upper limb; acute arterial occlusion lower limb; no pulses; absent pulses",
     "complexity": 4,
-    "search_text": "I74.9 Embolism and thrombosis of unspecified artery Embolism or thrombosis of artery, other Embolism and thrombosis of abdominal aorta, unspecified parts of aorta, arteries of upper or lower extremities, unspecified extremities, iliac artery, other arteries"
+    "search_text": "I74.9 Embolism and thrombosis of unspecified artery Embolism or thrombosis of artery, other Embolism and thrombosis of abdominal aorta, unspecified parts of aorta, arteries of upper or lower extremities, unspecified extremities, iliac artery, other arteries; acute limb ischemia; blue limb; pulseless limb; cold limb; arterial occlusion; brachial artery occlusion; radial artery occlusion; ischaemic limb; limb threatening ischemia; embolic occlusion; thrombotic occlusion; acute arterial occlusion upper limb; acute arterial occlusion lower limb; no pulses; absent pulses"
   },
   {
     "code": "I77.9",
