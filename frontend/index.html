@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EKoder - Clinical Coding Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div id="user-bar" class="user-bar hidden">
+                <span id="user-name"></span>
+                <button onclick="logout()" class="logout-btn">Logout</button>
+            </div>
+            <div class="logo">
+                <img src="/static/logo.png" alt="EKoder Logo" height="80">
+            </div>
+            <h1>EKoder</h1>
+            <p class="subtitle">ICD-10-AM Clinical Coding Assistant</p>
+        </header>
+
+        <div class="warning-banner">
+            All code suggestions require human review (ACCD requirement)
+        </div>
+
+        <main>
+            <section class="input-section">
+                <div class="input-tabs">
+                    <button class="tab-btn active" onclick="switchTab('text')">Paste Text</button>
+                    <button class="tab-btn" onclick="switchTab('file')">Upload File</button>
+                </div>
+
+                <div id="text-input" class="tab-content">
+                    <label for="clinical-text">Clinical Notes</label>
+                    <textarea
+                        id="clinical-text"
+                        placeholder="Paste the clinical case notes here...
+
+Example:
+68yo female brought by ambulance. Confusion and fever x2 days.
+UTI confirmed on urinalysis. Elevated WCC.
+Diagnosis: Delirium secondary to UTI."
+                        rows="10"
+                    ></textarea>
+                    <button id="submit-btn" onclick="submitCase()">
+                        <span class="btn-text">Get Code</span>
+                        <span class="spinner hidden"></span>
+                    </button>
+                </div>
+
+                <div id="file-input" class="tab-content hidden">
+                    <label>Upload Clinical Document</label>
+                    <div class="file-drop-zone" id="drop-zone">
+                        <input type="file" id="file-upload" accept=".txt,.pdf,.docx" onchange="handleFileSelect(event)">
+                        <div class="drop-content">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <p>Drag & drop a file here, or click to browse</p>
+                            <span class="file-types">Supported: .txt, .pdf, .docx</span>
+                        </div>
+                    </div>
+                    <div id="file-info" class="file-info hidden">
+                        <span id="file-name"></span>
+                        <button class="remove-file" onclick="clearFile()">Remove</button>
+                    </div>
+                    <button id="upload-btn" onclick="submitFile()" disabled>
+                        <span class="btn-text">Code File</span>
+                        <span class="spinner hidden"></span>
+                    </button>
+                </div>
+            </section>
+
+            <section id="result-section" class="result-section hidden">
+                <div id="error-display" class="error hidden"></div>
+
+                <div id="code-display" class="code-display">
+                    <div class="suggested-code">
+                        <span class="code-label">Suggested Code</span>
+                        <span id="code-value" class="code-value">-</span>
+                        <button class="copy-btn" onclick="copyCode()" title="Copy code">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="descriptor" class="descriptor">-</div>
+                    <div id="complexity-display" class="complexity-display hidden">
+                        <span class="complexity-label">Complexity:</span>
+                        <span id="complexity-indicator" class="complexity-indicator"></span>
+                    </div>
+                    <div id="reasoning" class="reasoning"></div>
+                </div>
+
+                <details id="extracted-text-section" class="extracted-text-section hidden">
+                    <summary>View Extracted Text</summary>
+                    <div id="extracted-text" class="extracted-text"></div>
+                </details>
+
+                <details class="candidates-section">
+                    <summary>View Candidate Codes (<span id="candidate-count">0</span>)</summary>
+                    <table id="candidates-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Description</th>
+                                <th>Score</th>
+                                <th>Source</th>
+                            </tr>
+                        </thead>
+                        <tbody id="candidates-body"></tbody>
+                    </table>
+                </details>
+
+                <div class="review-notice">
+                    <strong>Human Review Required</strong><br>
+                    This suggestion is AI-generated. A qualified clinical coder must verify the code before use.
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>EKoder v1.0 | Powered by Llama-3.3-70B | ED Short List: 1,174 codes</p>
+        </footer>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

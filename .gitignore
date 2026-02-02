@@ -1,0 +1,45 @@
+# Environment and secrets
+.env
+.env.local
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+.venv/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Runtime data (keep templates, exclude actual data)
+data/users.json
+data/audit_log.json
+
+# But DO include the code list and embeddings
+!data/ed_short_list.json
+!data/embeddings_mxbai_cache.npy
+
+# Docker
+*.tar
+
+# Testing
+.coverage
+htmlcov/

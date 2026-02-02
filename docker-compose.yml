@@ -1,0 +1,37 @@
+# EKoder Web - Docker Compose Configuration
+# Usage: docker-compose up -d
+
+version: '3.8'
+
+services:
+  ekoder-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ekoder-web
+    ports:
+      - "8000:8000"
+    environment:
+      - HF_TOKEN=${HF_TOKEN}
+      - OLLAMA_URL=http://host.docker.internal:11434
+      - SECRET_KEY=${SECRET_KEY:-change-this-in-production}
+    volumes:
+      # Persist data (users, audit logs)
+      - ekoder-data:/app/data
+      # Mount code list (read-only)
+      - ./data/ed_short_list.json:/app/data/ed_short_list.json:ro
+      - ./data/embeddings_cache.json:/app/data/embeddings_cache.json:ro
+    extra_hosts:
+      # Allow container to access host's Ollama
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  ekoder-data:
+    name: ekoder-data

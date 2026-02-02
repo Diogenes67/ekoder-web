@@ -1,0 +1,37 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv
+venv/
+ENV/
+.pytest_cache/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Tests
+tests/
+pytest.ini
+
+# Local development
+.env
+.env.local
+*.log
+
+# Data files that will be mounted
+data/users.json
+data/audit_log.json
+
+# Documentation
+*.md
+LICENSE
