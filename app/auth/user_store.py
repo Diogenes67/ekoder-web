@@ -83,7 +83,9 @@ def update_last_login(user_id: str):
 
 def init_default_admin():
     """Create a default admin user if no users exist"""
+    print(f"Checking for users in {USERS_FILE}...")
     users = _load_users()
+    print(f"Found {len(users)} existing users")
     if not users:
         try:
             create_user(UserCreate(
@@ -93,5 +95,7 @@ def init_default_admin():
                 role=UserRole.ADMIN
             ))
             print("Created default admin user: admin@ekoder.dev / admin123")
-        except ValueError:
-            pass  # User already exists
+        except Exception as e:
+            print(f"ERROR creating admin user: {e}")
+    else:
+        print(f"Admin already exists: {list(users.values())[0].get('email', 'unknown')}")
