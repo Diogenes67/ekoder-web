@@ -11,8 +11,8 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from app.config import settings
 
-# Password hashing
-pwd_context = CryptContext(schemes=["bcrypt_sha256"], deprecated="auto")
+# Password hashing - use pbkdf2_sha256 (no 72 byte limit like bcrypt)
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 # JWT settings
 SECRET_KEY = settings.SECRET_KEY
